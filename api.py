@@ -84,3 +84,5 @@ def getTask(task_type):
         return get3_7()
     elif task_type == "4_7":
         return get4_7()
+    else:
+        return "error"
