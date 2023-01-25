@@ -363,5 +363,7 @@ def getTask(task_type):
         return get3_7()
     elif task_type == "4_7":
         return get4_7()
+    elif task_type == '2_8':
+        return get2_8()
     else:
         return "Error: task not found."
