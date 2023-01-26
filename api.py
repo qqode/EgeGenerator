@@ -352,6 +352,33 @@ def get2_8():
     ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 802"""))
     return {"task": ex, "uid": otv}
 
+#тестить
+def get1_10():
+    string = ""
+    for i in range(1, 12):
+        url = f'https://ilibrary.ru/text/436/p.{i}/index.html'
+        html_text = requests.get(url).content
+        soup = BeautifulSoup(html_text, 'html.parser')
+        string += (str(soup.find_all("span", class_="p")))
+    ls = string.split(' ')
+    reg = re.compile('[^a-zA-Zа-яА-Я ]')
+    s = reg.sub('', string)
+    d = dict()
+    for i in s.split():
+        if i in d:
+            d[i] += 1
+        else:
+            d[i] = 1
+    res = []
+    exeption = 'abcdefghijklmoops'
+    for i in d:
+        if str(d[i]) not in exeption:
+            res.append(str(i))
+    slov=choice(res)
+    otv = d[slov]
+    ex = cur.execute('''SELECT q FROM fuck WHERE id = 1001''')
+    return {"task": ex, "uid": otv}
+
 
 @app.get("/getTask")
 def getTask(task_type):
@@ -363,7 +390,17 @@ def getTask(task_type):
         return get3_7()
     elif task_type == "4_7":
         return get4_7()
+    elif task_type == '1_10':
+        return get1_10()
+    elif task_type == "1_8":
+        return get1_8()
+    elif task_type == "2_11":
+        return get3_7()
+    elif task_type == "1_19":
+        return get4_7()
     elif task_type == '2_8':
+        return get2_8()
+    elif task_type == '1_11':
         return get2_8()
     else:
         return "Error: task not found."
