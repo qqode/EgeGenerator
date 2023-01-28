@@ -354,16 +354,99 @@ def get2_8():
     ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 802"""))
     return {"task": ex, "uid": otv}
 
+#тестить
+def get1_10():
+    string = ""
+    for i in range(1, 12):
+        url = f'https://ilibrary.ru/text/436/p.{i}/index.html'
+        html_text = requests.get(url).content
+        soup = BeautifulSoup(html_text, 'html.parser')
+        string += (str(soup.find_all("span", class_="p")))
+    ls = string.split(' ')
+    reg = re.compile('[^a-zA-Zа-яА-Я ]')
+    s = reg.sub('', string)
+    d = dict()
+    for i in s.split():
+        if i in d:
+            d[i] += 1
+        else:
+            d[i] = 1
+    res = []
+    exeption = 'abcdefghijklmoops'
+    for i in d:
+        if str(d[i]) not in exeption:
+            res.append(str(i))
+    slov=choice(res)
+    otv = d[slov]
+    ex = cur.execute('''SELECT q FROM fuck WHERE id = 1001''')
+    return {"task": ex, "uid": otv}
+
+def get1_23():
+    list_adder=[]
+    list_mult = []
+    pull_counter = randint(2, 4)
+    pull = ['Прибавить', 'Умножить']
+    start=randint(1,20)
+    end = randint(50,100)
+    adder1=randint(1,5)
+    adder2 = randint(1, 5)
+    mult = randint(1, 5)
+    mult2 = randint(1,5)
+    number = 1
+    sta = ''
+    for i in range(1, pull_counter):
+        a = choice(pull)
+        if a == 'Прибавить':
+            sta += str(number) + ' ' + str(choice(pull)) + ' ' + str(adder1)
+            list_adder.append(adder1)
+        if a == 'Умножить':
+            sta += str(number) + ' ' + str(choice(pull)) + ' ' + str(mult)
+            list_mult.append(mult)
+        number += 1
+    ex = cur.execute("""SELECT q FROM task5 WHERE id=2301""").fetchone()[0].format(adder1=adder1,mult=mult)[104:] + sta + cur.execute("""SELECT q FROM task5 WHERE id=2301""").fetchone()[0].format(adder1=adder1,mult=mult)[:104]
+    star = ''
+    if list_mult!=0:
+
+        for i in range(len(list_mult)):
+            if i != len(list_mult):
+                star+= 'f(x+' + str(list_mult[i]) + 'y)'
+                star+='+'
+            else:
+                star+= 'f(x+' + str(list_mult[i]) + 'y)'
+    if list_adder != 0:
+        for i in range(len(list_adder)):
+            if i != len(list_mult):
+                star += 'f(x+' + str(list_adder[i]) + 'y)'
+                star += '+'
+            else:
+                star += 'f(x+' + str(list_adder[i]) + 'y)'
+    res = cur.execute('''SELECT a FROM fuck WHERE id =2301''')[:64] + sta + 'otv = f({start},{end})'
+    exec(res,globals(),locals())
+    return {'task':ex,"uid":otv}
 
 @app.get("/getTask")
 def getTask(task_type):
     if task_type == "1_7":
         return get1_7()
+    elif task_type == '1_23':
+        return get1_23()
     elif task_type == "2_7":
         return get2_7()
     elif task_type == "3_7":
         return get3_7()
     elif task_type == "4_7":
         return get4_7()
+    elif task_type == '1_10':
+        return get1_10()
+    elif task_type == "1_8":
+        return get1_8()
+    elif task_type == "2_11":
+        return get3_7()
+    elif task_type == "1_19":
+        return get4_7()
+    elif task_type == '2_8':
+        return get2_8()
+    elif task_type == '1_11':
+        return get2_8()
     else:
         return "Error: task not found."
