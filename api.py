@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from tabulate import tabulate
 import sqlite3
 from typing import Union
 from random import *
@@ -22,6 +22,55 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+def get1_2():
+    # все работает правильно с стабильным условием, я хз как оно будет работать с генерируемым условием, но это уже работа Криюшина. Ко мне по вопросам работы этого алгоритма не оброщаться, так как я писал это не на трезвую голову ( болею) и скорее всего забуду как это работает, однако в двух словах ответ - это рандомный шафл нужных символов, дальше алгоритм генерит условие и по нему прогоняет стандартный алгоритм решения, записывая результаты в словарь data с индексами  x y z w , потом задание формируется как таблица, беря данные из словаря data, меняя ключи на переменная 1, переменная 2 и тд. В результате набор символов из ответа соответствует переменным из таблицы
+    res = ''
+    letters = ['x', 'y', 'z', 'w',
+               '(x≡y)', '(x≡w)', '(x≡z)', '(w≡y)', '(z≡w)', '(z≡y)',
+               '(x∨y)', '(x∨w)', '(x∨z)', '(w∨y)', '(z∨w)', '(z∨y)',
+               '(x∧y)', '(x∧w)', '(x∧z)', '(w∧y)', '(z∧w)', '(z∧y)'
+               ]
+    syms = ['->', '∨', '∧', '≡']
+    pow = randint(3, 5)
+    while pow != 0:
+        if pow > 1:
+            res += choice(letters)
+            res += choice(syms)
+        else:
+            res += choice(letters)
+        pow -= 1
+    for i in res:
+        if '∧' in res:
+            res = res.replace('∧', ' and ')
+        if '∨' in res:
+            res = res.replace('∨', ' or ')
+        if '≡' in res:
+            res = res.replace('≡', ' == ')
+        if '->' in res:
+            res = res.replace('->', ' <= ')
+    c = randint(0, 1)
+    data = {'x': [], 'y': [], 'z': [], 'w': [], 'f': []}
+    otv = ['x', 'y', 'z', 'w']
+    shuffle(
+        otv)  # проверить, как работает при запуске в функции, если каждый раз ответ xyzw, то это баг и эта функция не работает с функцией
+    for x in range(2):
+        for y in range(2):
+            for z in range(2):
+                for w in range(2):
+                    f = res
+                    if eval(f) == c:
+                        data['x'].append(x)
+                        data['y'].append(y)
+                        data['z'].append(z)
+                        data['w'].append(w)
+                        data['f'].append(int(eval(f)))
+    tabl = []
+    for i in range(len(otv)):
+        tabl.append(['Переменная' + ' ' + str(i + 1), data[str(otv[i])]])
+    tabl.append(['Функция', data['f']])
+    ex = tabulate([tabl])
+    return {"task": ex, "uid": otv}
 
 def get1_7():
     cl = randint(2, 300)
@@ -386,6 +435,8 @@ def get1_10():
 def getTask(task_type):
     if task_type == "1_7":
         return get1_7()
+    elif task_type == '1_2':
+        return get1_2()
     elif task_type == "2_7":
         return get2_7()
     elif task_type == "3_7":
