@@ -408,9 +408,21 @@ def get2_8():
 
 #тестить
 def get1_10():
-    string = ""
-    for i in range(1, 12):
-        url = f'https://ilibrary.ru/text/436/p.{i}/index.html'
+ 
+    book = randint(100,300)
+    string=''
+    url = f'https://ilibrary.ru/text/{book}/p.1/index.html'
+    html_text = requests.get(url).content
+    soup = BeautifulSoup(html_text, 'html.parser')
+    rang = (str(soup.find("div",class_='bnvin'))[238:240])
+    author =(str(soup.find_all("div", class_="author"))[21:-7])
+    if rang =='':
+        rang=2
+    else:
+        rang=int(rang)
+
+    for i in range(1, rang):
+        url = f'https://ilibrary.ru/{book}/436/p.{i}/index.html'
         html_text = requests.get(url).content
         soup = BeautifulSoup(html_text, 'html.parser')
         string += (str(soup.find_all("span", class_="p")))
@@ -434,7 +446,7 @@ def get1_10():
         if i not in 'abcdrfghigklmnopqrstuvwzx':
             slov2+=i
     otv = d[slov]
-    ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 801""").fetchone()[0].format(slov(slov2)))
+    ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 801""").fetchone()[0].format(slov=slov2,author=author))
     return {"task": ex, "uid": otv}
 
 
