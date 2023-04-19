@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from bs4 import BeautifulSoup
 from tabulate import tabulate
 import sqlite3
+import re
+import requests
 from typing import Union
 from random import *
 from sqlite3 import *
@@ -425,9 +428,13 @@ def get1_10():
     for i in d:
         if str(d[i]) not in exeption:
             res.append(str(i))
-    slov=choice(res)
+    slov = choice(res)
+    slov2=''
+    for i in slov:
+        if i not in 'abcdrfghigklmnopqrstuvwzx':
+            slov2+=i
     otv = d[slov]
-    ex = cur.execute('''SELECT q FROM fuck WHERE id = 1001''')
+    ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 801""").fetchone()[0].format(slov(slov2)))
     return {"task": ex, "uid": otv}
 
 
