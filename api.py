@@ -416,6 +416,7 @@ def get1_10():
     soup = BeautifulSoup(html_text, 'html.parser')
     rang = (str(soup.find("div",class_='bnvin'))[238:240])
     author =(str(soup.find_all("div", class_="author"))[21:-7])
+    name = (str(soup.find("div",class_='title')))[24:-12]
     if rang =='':
         rang=2
     else:
@@ -446,7 +447,7 @@ def get1_10():
         if i not in 'abcdrfghigklmnopqrstuvwzx':
             slov2+=i
     otv = d[slov]
-    ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 801""").fetchone()[0].format(slov=slov2,author=author))
+    ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 801""").fetchone()[0].format(slov=slov2,author=author,name=name))
     return {"task": ex, "uid": otv}
 
 
