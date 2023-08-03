@@ -423,7 +423,7 @@ def get1_10():
         rang=int(rang)
 
     for i in range(1, rang):
-        url = f'https://ilibrary.ru/{book}/436/p.{i}/index.html'
+        url = f'https://ilibrary.ru/text/{book}/p.{i}/index.html'
         html_text = requests.get(url).content
         soup = BeautifulSoup(html_text, 'html.parser')
         string += (str(soup.find_all("span", class_="p")))
