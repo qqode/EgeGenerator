@@ -1,0 +1,235 @@
+from aiogram import *
+import sqlite3
+import re
+from typing import Union
+from random import *
+from sqlite3 import *
+from fastapi import FastAPI
+from math import *
+from fastapi.middleware.cors import CORSMiddleware
+from itertools import *
+
+
+
+con = sqlite3.connect("tasks.db", check_same_thread=False)
+cur = con.cursor()
+app = FastAPI()
+
+
+
+
+def get2_7():
+    size1 = 2 ** randint(7, 13)
+    size2 = 2 ** randint(7, 13)
+    v = randint(300,500)
+    ex = str(cur.execute("""SELECT q FROM fuck WHERE id=702""").fetchone()[0]).format(
+        size1=size1, size2=size2, v=v)
+    exec(
+        (cur.execute("""SELECT a FROM fuck WHERE id=702""").fetchone()[0]).format(
+            size1=size1, size2=size2, v=v
+        ),
+        locals(),
+        globals(),
+    )
+    return ex,otv
+def get3_7():
+    color1 = randint(10,30)
+    color2 = randint(1,color1)
+    dpi1=randint(300,700)
+    dpi2=randint(100,dpi1-100)
+    sred = randint(1,100)
+    ex = str(cur.execute("""SELECT q FROM fuck WHERE id=703""").fetchone()[0]).format(
+        dpi1=dpi1, dpi2=dpi2, color1=color1 ,color2=color2, sred=sred
+    )
+    exec(
+        (cur.execute("""SELECT a FROM fuck WHERE id=703""").fetchone()[0]).format(
+            dpi1=dpi1, dpi2=dpi2, color1=color1, color2=color2, sred=sred
+        ),
+        locals(),
+        globals(),
+    )
+    return ex, otv
+
+
+def get4_7():
+    pass
+
+
+def get1_7():
+    cl = randint(2, 300)
+    size1 = 2 ** randint(7, 13)
+    size2 = 2 ** randint(2, 18)
+    ex = str(cur.execute("""SELECT q FROM fuck WHERE id=701""").fetchone()[0]).format(
+        size1=size1, size2=size2, cl=cl
+    )
+    exec(
+        (cur.execute("""SELECT a FROM fuck WHERE id=701""").fetchone()[0]).format(
+            size1=size1, size2=size2, cl=cl
+        ),
+        locals(),
+        globals(),
+    )
+    return ex,otv
+
+
+def get4_7():
+    list1 = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    color = choice(list1)
+    size1 = randint(100, 500)
+    size2 = randint(100, 500)
+    ex = str(
+        cur.execute("""SELECT q FROM fuck WHERE id=704""")
+        .fetchone()[0]
+        .format(color=color, size2=size2, size1=size1)
+    )
+    exec(
+        (
+            cur.execute("""SELECT a FROM fuck WHERE id=704""")
+            .fetchone()[0]
+            .format(color=color, size1=size1, size2=size2)
+        ),
+        locals(),
+        globals(),
+    )
+    return ex, otv
+
+
+def get5_7():
+    speedA = randint(5, 60)
+    res = randint(2, 4)
+    cle = randint(2, 4)
+    speedB = randint(2, 5)
+    ex = str(
+        cur.execute("""SELECT q FROM fuck WHERE id = 705""")
+        .fetchone()[0]
+        .format(speedB=speedB, speedA=speedA, res=res, cle=cle)
+    )
+    exec(
+        (
+            cur.execute("""SELECT q FROM fuck WHERE id=705""")
+            .fetchone()[0]
+            .format(speedB=speedB, speedA=speedA, res=res, cle=cle)
+        ),
+        locals(),
+        globals(),
+    )
+    return ex,otv
+
+
+
+
+def get1_11():
+    slov = [
+        "А",
+        "Б",
+        "В",
+        "Г",
+        "Д",
+        "Е",
+        "Ё",
+        "Ж",
+        "З",
+        "И",
+        "Й",
+        "К",
+        "Л",
+        "М",
+        "Н",
+        "П",
+        "Р",
+        "С",
+        "Т",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "Я",
+        "Ч",
+    ]
+    length0 = randint(5, 10)
+    chars = []
+    leni = 0
+    for i in range(1, length0):
+        a = choice(slov)
+        if a not in chars:
+            leni += 1
+            chars.append(choice(slov))
+            chars.append(" ")
+    length_sims = randint(10, 30)
+    amount = randint(10, 30)
+    chats = "".join(chars)
+    ex = str(
+        cur.execute("""SELECT q FROM fuck WHERE id = 1101""")
+        .fetchone()[0]
+        .format(length_sims=length_sims, amount=amount, chats=chats)
+    )
+    exec(
+        (
+            cur.execute("""SELECT q FROM fuck WHERE id=1101""")
+            .fetchone()[0]
+            .format(amount=amount, leni=leni, length_sims=length_sims)
+        ),
+        locals(),
+        globals(),
+    )
+    return ex,otv
+
+
+def get2_11():
+    length_sims = randint(10, 30)
+    bu = randint(12, 74)
+    buic = bu + bu + 10
+    amount = randint(10, 50)
+    ex = str(
+        cur.execute("""SELECT q FROM fuck WHERE id = 1102""")
+        .fetchone()[0]
+        .format(length_sims=length_sims, bu=bu, amount=amount)
+    )
+    exec(
+        (
+            cur.execute("""SELECT q FROM fuck WHERE id=1102""")
+            .fetchone()[0]
+            .format(length_sims=length_sims, buic=buic, amount=amount)
+        ),
+        locals(),
+        globals(),
+    )
+    return ex,otv
+
+
+
+
+
+
+
+
+token = '6374911798:AAEZRhVA6mpCmN5vKKAuXu6cwamrP8Jj3I0'
+bot = Bot(token=token)
+dp = Dispatcher(bot)
+
+@dp.message_handler(commands=['start'])
+async def begin(message: types.Message):
+    await bot.send_message(message.chat.id,'Привет! Введи номер задания, которое хочешь сгенерировать.(формат / + номер задания. Пока доступны: 7,11) ')
+
+
+@dp.message_handler(commands=['7'])
+async def begin(message: types.Message):
+    await bot.send_message(message.chat.id,choice([str(get1_7()),str(get2_7()),str(get3_7()),str(get4_7()),str(get5_7())]))
+
+
+
+
+@dp.message_handler(commands=['11'])
+async def begin(message: types.Message):
+    await bot.send_message(message.chat.id,choice([str(get2_11()),str(get1_11())]))
+
+
+
+executor.start_polling(dp)
+
+
