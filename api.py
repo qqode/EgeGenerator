@@ -206,8 +206,10 @@ def get1_11():
         "Я",
         "Ч",
     ]
+
     length0 = randint(5, 10)
     chars = []
+    memory=randint(400,800)
     leni = 0
     for i in range(1, length0):
         a = choice(slov)
@@ -221,13 +223,13 @@ def get1_11():
     ex = str(
         cur.execute("""SELECT q FROM fuck WHERE id = 1101""")
         .fetchone()[0]
-        .format(length_sims=length_sims, amount=amount, chats=chats)
+        .format(a=length_sims, b=leni, c=chats,d=amount,e=memory)
     )
     exec(
         (
-            cur.execute("""SELECT q FROM fuck WHERE id=1101""")
+            cur.execute("""SELECT a FROM fuck WHERE id=1101""")
             .fetchone()[0]
-            .format(amount=amount, leni=leni, length_sims=length_sims)
+            .format(amount=amount, memory=memory, leni=leni, length_sims=length_sims)
         ),
         locals(),
         globals(),
