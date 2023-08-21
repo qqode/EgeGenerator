@@ -238,24 +238,26 @@ def get1_11():
 
 
 def get2_11():
-    length_sims = randint(10, 30)
-    bu = randint(12, 74)
-    buic = bu + bu + 10
-    amount = randint(10, 50)
+    personal_code_len = randint(10, 30)
+    personal_code_alph = randint(12, 74)
+    personal_code_alph_and_digits=personal_code_alph+10
+    '''Каждый сотрудник предприятия получает электронный пропуск, на котором записаны личный код сотрудника, код подразделения и некоторая дополнительная информация. Личный код состоит из {a} символов, каждый из которых может быть одной из {b} допустимых заглавных букв или одной из 10 цифр. Для записи личного кода используют посимвольное кодирование, все символы кодируют одинаковым минимально возможным количеством бит. Код подразделения состоит из двух натуральных чисел, не превышающих 100, каждое из которых кодируется как двоичное число и занимает минимально возможное целое число бит. Личный код и код подразделения записываются подряд и вместе занимают минимально возможное целое число байт. Всего на пропуске хранится {c} байт данных. Сколько байт выделено для хранения дополнительных сведений об одном сотруднике? В ответе запишите только целое число - количество байт'''
+    memory = randint(64, 200)
     ex = str(
         cur.execute("""SELECT q FROM fuck WHERE id = 1102""")
         .fetchone()[0]
-        .format(length_sims=length_sims, bu=bu, amount=amount)
+        .format(a=personal_code_len, b=personal_code_alph , c=memory)
     )
     exec(
         (
-            cur.execute("""SELECT q FROM fuck WHERE id=1102""")
+            cur.execute("""SELECT a FROM fuck WHERE id=1102""")
             .fetchone()[0]
-            .format(length_sims=length_sims, buic=buic, amount=amount)
+            .format(memory=memory,personal_code_alph_and_digits=personal_code_alph_and_digits,personal_code_len=personal_code_len)
         ),
         locals(),
         globals(),
     )
+
     return {"task": ex, "uid": otv}
 
 
