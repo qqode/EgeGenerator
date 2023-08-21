@@ -95,10 +95,9 @@ def get1_7():
 def get2_7():
     size1 = 2 ** randint(7, 13)
     size2 = 2 ** randint(7, 13)
-    v = randint(30, 200)
+    v = randint(300,500)
     ex = str(cur.execute("""SELECT q FROM fuck WHERE id=702""").fetchone()[0]).format(
-        size1=size1, size2=size2, v=v
-    )
+        size1=size1, size2=size2, v=v)
     exec(
         (cur.execute("""SELECT a FROM fuck WHERE id=702""").fetchone()[0]).format(
             size1=size1, size2=size2, v=v
