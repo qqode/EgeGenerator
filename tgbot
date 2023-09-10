@@ -8,7 +8,9 @@ from fastapi import FastAPI
 from math import *
 from fastapi.middleware.cors import CORSMiddleware
 from itertools import *
-
+from aiogram.utils.markdown import hspoiler
+from bs4 import BeautifulSoup
+import requests
 
 
 con = sqlite3.connect("tasks.db", check_same_thread=False)
@@ -51,8 +53,48 @@ def get3_7():
     return ex, otv
 
 
-def get4_7():
-    pass
+def get1_10():
+    book = randint(100, 300)
+    string = ''
+    url = f'https://ilibrary.ru/text/{book}/p.1/index.html'
+    html_text = requests.get(url).content
+    soup = BeautifulSoup(html_text, 'html.parser')
+    rang = (str(soup.find("div", class_='bnvin'))[238:240])
+    author = (str(soup.find_all("div", class_="author"))[21:-7])
+    name = (str(soup.find("div", class_='title')))[24:-12]
+    if rang == '':
+        rang = 2
+    else:
+        rang = int(rang)
+
+    for i in range(1, rang):
+        url = f'https://ilibrary.ru/text/{book}/p.{i}/index.html'
+        html_text = requests.get(url).content
+        soup = BeautifulSoup(html_text, 'html.parser')
+        string += (str(soup.find_all("span", class_="p")))
+    ls = string.split(' ')
+    reg = re.compile('[^a-zA-Zа-яА-Я ]')
+    s = reg.sub('', string)
+    d = dict()
+    for i in s.split():
+        if i in d:
+            d[i] += 1
+        else:
+            d[i] = 1
+    res = []
+    exeption = 'abcdefghijklmoops'
+    for i in d:
+        if str(d[i]) not in exeption:
+            res.append(str(i))
+    slov = choice(res)
+    slov2 = ''
+    for i in slov:
+        if i not in 'abcdrfghigklmnopqrstuvwzx':
+            slov2 += i
+    otv = d[slov]
+    ex = str(
+        cur.execute("""SELECT q FROM fuck WHERE id = 1001""").fetchone()[0].format(slov=slov2,  name=name,author=author))
+    return ex,otv
 
 
 def get1_7():
@@ -94,27 +136,27 @@ def get4_7():
     return ex, otv
 
 
-def get5_7():
-    speedA = randint(5, 60)
-    res = randint(2, 4)
-    cle = randint(2, 4)
-    speedB = randint(2, 5)
-    ex = str(
-        cur.execute("""SELECT q FROM fuck WHERE id = 705""")
-        .fetchone()[0]
-        .format(speedB=speedB, speedA=speedA, res=res, cle=cle)
-    )
-    exec(
-        (
-            cur.execute("""SELECT q FROM fuck WHERE id=705""")
-            .fetchone()[0]
-            .format(speedB=speedB, speedA=speedA, res=res, cle=cle)
-        ),
-        locals(),
-        globals(),
-    )
-    return ex,otv
-
+#def get5_7():
+#    speedA = randint(5, 60)
+#    res = randint(2, 4)
+#    cle = randint(2, 4)
+#    speedB = randint(2, 5)
+#    ex = str(
+#        cur.execute("""SELECT q FROM fuck WHERE id = 705""")
+#        .fetchone()[0]
+#        .format(speedB=speedB, speedA=speedA, res=res, cle=cle)
+#    )
+#    exec(
+#        (
+#            cur.execute("""SELECT q FROM fuck WHERE id=705""")
+#            .fetchone()[0]
+#            .format(speedB=speedB, speedA=speedA, res=res, cle=cle)
+#        ),
+#        locals(),
+#        globals(),
+#    )
+#    return ex,otv
+#
 
 
 
@@ -205,9 +247,131 @@ def get2_11():
     return ex,otv
 
 
+def get1_8():
+    s = []
+    place = randint(50, 300)
+    set = []
+    slov = [
+        "А",
+        "Б",
+        "В",
+        "Г",
+        "Д",
+        "Е",
+        "Ё",
+        "Ж",
+        "З",
+        "И",
+        "Й",
+        "К",
+        "Л",
+        "М",
+        "Н",
+        "П",
+        "Р",
+        "С",
+        "Т",
+        "Ж",
+        "Я",
+        "Ч",
+    ]
+    wordsize = randint(4, 6)
+    setsize = randint(4, 6)
+    for i in range(setsize):
+        set.append(slov.pop(slov.index(choice(slov))))
+    set1 = "(" + "".join(set) + ")"
+    #set = sorted(set)
+    perebor = product(set, repeat=int(wordsize))
+    place1 =place+1
+    for i in perebor:
+        s.append(i)
+    set_sample = s[0]
+    ex = str(
+        cur.execute("""SELECT q FROM fuck WHERE id = 801""")
+        .fetchone()[0]
+        .format(wordsize=wordsize, set1=set1, place=place1,set_sample=set_sample)
+    )
+    exec(
+        (
+            cur.execute("""SELECT a FROM fuck WHERE id=801""")
+            .fetchone()[0]
+            .format(s=s, place=place)
+        ),
+        locals(),
+        globals(),
+    )
+    return ex,otv
 
 
+def get2_8():
+    setr = []
+    s = []
+    choose = choice(("гласной", "согласной"))
+    slov = [
+        "А",
+        "Б",
+        "В",
+        "Г",
+        "Д",
+        "Е",
+        "Ё",
+        "Ж",
+        "З",
+        "И",
+        "Й",
+        "К",
+        "Л",
+        "М",
+        "Н",
+        "П",
+        "Р",
+        "С",
+        "Т",
+        "O",
+        "Ж",
+        "Я",
+        "Ч",
+    ]
+    vovs = ["A", "E", "Ё", "И", "О", "Я"]
+    cons = [
+        "Б",
+        "В",
+        "Г",
+        "Д",
+        "Ж",
+        "З",
+        "Й",
+        "К",
+        "Л",
+        "М",
+        "Н",
+        "П",
+        "Р",
+        "С",
+        "Т",
+        "Ж",
+        "Ч",
+    ]
+    wordsize = randint(4, 6)
+    setsize = randint(4, 6)
+    for i in range(setsize):
+        setr.append(slov.pop(slov.index(choice(slov))))
+        perebor = product("".join(setr), repeat=int(wordsize))
+        k = 0
+        gl = 0
+        for i in perebor:
+            k += 1
+            if i[0] in vovs:
+                gl += 1
+            s.append(i)
+    if choose == "гласной":
+        exec(
+            ("""otv=len(set(setr) & set(vovs)) * setsize ** (wordsize - 1)"""),locals(),globals(),)
 
+    else:
+        exec(("""otv=len(set(setr) & set(cons)) * setsize ** (wordsize - 1)"""),locals(),globals(),)
+    ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 802""").fetchone()[0].format(wordsize=wordsize, choose=choose, setr=setr))
+    return ex,otv
 
 
 
@@ -217,20 +381,29 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start'])
 async def begin(message: types.Message):
-    await bot.send_message(message.chat.id,'Привет! Введи номер задания, которое хочешь сгенерировать.(формат / + номер задания. Пока доступны: 7,11) ')
+    await bot.send_message(message.chat.id,'Привет! Введи номер задания, которое хочешь сгенерировать.(формат / + номер задания. Пока доступны: 7,11,8,10) ')
 
 
 @dp.message_handler(commands=['7'])
 async def begin(message: types.Message):
-    await bot.send_message(message.chat.id,choice([str(get1_7()),str(get2_7()),str(get3_7()),str(get4_7()),str(get5_7())]))
+    await bot.send_message(message.chat.id,choice([str(get1_7()),str(get2_7()),str(get3_7()),str(get4_7())]))
 
-
+#f"Видно ||Не видно||", parse_mode='MarkdownV2'
 
 
 @dp.message_handler(commands=['11'])
 async def begin(message: types.Message):
     await bot.send_message(message.chat.id,choice([str(get2_11()),str(get1_11())]))
 
+
+@dp.message_handler(commands=['10'])
+async def begin(message: types.Message):
+    await bot.send_message(message.chat.id,choice([str(get1_10())]))
+
+
+@dp.message_handler(commands=['8'])
+async def begin(message: types.Message):
+    await bot.send_message(message.chat.id,choice([str(get1_8())]))
 
 
 executor.start_polling(dp)
