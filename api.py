@@ -317,7 +317,7 @@ def get1_8():
     for i in range(setsize):
         set.append(slov.pop(slov.index(choice(slov))))
     set1 = "(" + "".join(set) + ")"
-    set = sorted(set)
+    set = (set)
     perebor = product(set, repeat=int(wordsize))
     for i in perebor:
         s.append(i)
