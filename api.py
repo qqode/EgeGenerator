@@ -449,8 +449,8 @@ def get1_10():
     for i in slov:
         if i not in 'abcdrfghigklmnopqrstuvwzx':
             slov2+=i
-    otv = d[slov2]
-    ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 801""").fetchone()[0].format(slov=slov2,author=author,name=name))
+    otv = d[slov]
+    ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 1001""").fetchone()[0].format(slov=slov2,author=author,name=name))
     return {"task": ex, "uid": otv}
 
 
