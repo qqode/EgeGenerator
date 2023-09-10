@@ -392,7 +392,7 @@ def get2_8():
     otv = 0
     for i in range(setsize):
         setr.append(slov.pop(slov.index(choice(slov))))
-        perebor = product("".join(set), repeat=int(wordsize))
+        perebor = product("".join(setr), repeat=int(wordsize))
         k = 0
         gl = 0
         for i in perebor:
