@@ -11,7 +11,7 @@ from itertools import *
 from aiogram.utils.markdown import hspoiler
 from bs4 import BeautifulSoup
 import requests
-
+from aiogram.types.message_entity import *
 
 con = sqlite3.connect("tasks.db", check_same_thread=False)
 cur = con.cursor()
@@ -33,7 +33,7 @@ def get2_7():
         locals(),
         globals(),
     )
-    return ex,otv
+    return [ex,otv]
 def get3_7():
     color1 = randint(10,30)
     color2 = randint(1,color1)
@@ -50,7 +50,7 @@ def get3_7():
         locals(),
         globals(),
     )
-    return ex, otv
+    return [ex, otv]
 
 
 def get1_10():
@@ -94,7 +94,7 @@ def get1_10():
     otv = d[slov]
     ex = str(
         cur.execute("""SELECT q FROM fuck WHERE id = 1001""").fetchone()[0].format(slov=slov2,  name=name,author=author))
-    return ex,otv
+    return [ex,otv]
 
 
 def get1_7():
@@ -111,7 +111,7 @@ def get1_7():
         locals(),
         globals(),
     )
-    return ex,otv
+    return [ex,otv]
 
 
 def get4_7():
@@ -133,7 +133,7 @@ def get4_7():
         locals(),
         globals(),
     )
-    return ex, otv
+    return [ex, otv]
 
 
 #def get5_7():
@@ -202,7 +202,7 @@ def get1_11():
         a = choice(slov)
         if a not in chars:
             leni += 1
-            chars.append(choice(slov))
+            chars.append(a)
             chars.append(" ")
     length_sims = randint(10, 30)
     amount = randint(10, 30)
@@ -221,7 +221,7 @@ def get1_11():
         locals(),
         globals(),
     )
-    return ex,otv
+    return [ex,otv]
 
 def get2_11():
     personal_code_len = randint(10, 30)
@@ -244,7 +244,7 @@ def get2_11():
         globals(),
     )
 
-    return ex,otv
+    return [ex,otv]
 
 
 def get1_8():
@@ -300,7 +300,7 @@ def get1_8():
         locals(),
         globals(),
     )
-    return ex,otv
+    return [ex,otv]
 
 
 def get2_8():
@@ -371,7 +371,7 @@ def get2_8():
     else:
         exec(("""otv=len(set(setr) & set(cons)) * setsize ** (wordsize - 1)"""),locals(),globals(),)
     ex = str(cur.execute("""SELECT q FROM fuck WHERE id = 802""").fetchone()[0].format(wordsize=wordsize, choose=choose, setr=setr))
-    return ex,otv
+    return [ex,otv]
 
 
 
@@ -381,31 +381,43 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start'])
 async def begin(message: types.Message):
-    await bot.send_message(message.chat.id,'Привет! Введи номер задания, которое хочешь сгенерировать.(формат / + номер задания. Пока доступны: 7,11,8,10) ')
-
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons = ["/7", "/11","/8","/10"]
+    keyboard.add(*buttons)
+    await message.answer("Выбери задание!", reply_markup=keyboard)
 
 @dp.message_handler(commands=['7'])
 async def begin(message: types.Message):
-    await bot.send_message(message.chat.id,choice([str(get1_7()),str(get2_7()),str(get3_7()),str(get4_7())]))
+    ans = choice([get1_7(),get2_7(),get3_7(),get4_7()])
+    ans1 = '<span class="tg-spoiler">' + str(ans[1]) + '</span>'
+    await bot.send_message(message.chat.id,ans[0])
+    await bot.send_message(message.chat.id, ans1,parse_mode='HTML')
 
-#f"Видно ||Не видно||", parse_mode='MarkdownV2'
 
 
 @dp.message_handler(commands=['11'])
 async def begin(message: types.Message):
-    await bot.send_message(message.chat.id,choice([str(get2_11()),str(get1_11())]))
+    ans = choice([get2_11(),get1_11()])
+    ans1 = '<span class="tg-spoiler">' + str(ans[1]) + '</span>'
+    await bot.send_message(message.chat.id,ans[0])
+    await bot.send_message(message.chat.id, ans1,parse_mode='HTML')
 
 
 @dp.message_handler(commands=['10'])
 async def begin(message: types.Message):
-    await bot.send_message(message.chat.id,choice([str(get1_10())]))
+
+    ans = choice([get1_10()])
+    ans1 = '<span class="tg-spoiler">'+str(ans[1]) + '</span>'
+    await bot.send_message(message.chat.id,ans[0])
+    await bot.send_message(message.chat.id, ans1,parse_mode='HTML')
 
 
 @dp.message_handler(commands=['8'])
 async def begin(message: types.Message):
-    await bot.send_message(message.chat.id,choice([str(get1_8())]))
-
+    ans = choice([get1_8()])
+    ans1 = '<span class="tg-spoiler">'+str(ans[1]) + '</span>'
+    await bot.send_message(message.chat.id,ans[0])
+    await bot.send_message(message.chat.id, ans1,parse_mode='HTML')
 
 executor.start_polling(dp)
-
 
